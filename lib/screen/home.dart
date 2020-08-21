@@ -13,15 +13,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/global.dart';
 import '../models/post.dart';
+import 'package:agorartm/pages/home_page.dart';
+import 'package:agorartm/pages/root_app.dart';
 import 'agora/host.dart';
 import 'agora/join.dart';
 
-class HomePage extends StatefulWidget {
+import 'package:agorartm/theme/colors.dart';
+import 'package:agorartm/widgets/tik_tok_icons.dart';
+import 'package:agorartm/widgets/upload_icon.dart';
+
+class HomePageLive extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageLiveState createState() => _HomePageLiveState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageLiveState extends State<HomePageLive> {
   final FlareControls flareControls = FlareControls();
   final databaseReference = Firestore.instance;
   List<Live> list = [];
@@ -91,35 +97,35 @@ class _HomePageState extends State<HomePage> {
   Widget getMain() {
     return Scaffold(
       appBar: AppBar(
-        leading: Transform.translate(
-            offset: Offset(-5, 0),
-            child: Icon(
-              FontAwesomeIcons.camera,
-              color: Colors.white,
-            )),
+        // leading: Transform.translate(
+        //     offset: Offset(-5, 0),
+        //     child: Icon(
+        //       FontAwesomeIcons.camera,
+        //       color: Colors.white,
+        //     )),
         titleSpacing: -10,
         title: Text(
-          'Agoragram',
-          style: TextStyle(fontFamily: 'Billabong', fontSize: 28),
+          'TrailblazA',
+          style: TextStyle(fontFamily: 'Oswald-Regular', fontSize: 27),
         ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: Icon(
-              FontAwesomeIcons.paperPlane,
-              color: Colors.white,
-            ),
-          ),
-          /*Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () => logout(),
-                child: Icon(
-                    Icons.exit_to_app
-                ),
-              )
-          ),*/
-        ],
+        // actions: <Widget>[
+        //   Padding(
+        //     padding: const EdgeInsets.only(right: 12.0),
+        //     child: Icon(
+        //       FontAwesomeIcons.paperPlane,
+        //       color: Colors.white,
+        //     ),
+        //   ),
+        //   /*Padding(
+        //       padding: EdgeInsets.only(right: 20.0),
+        //       child: GestureDetector(
+        //         onTap: () => logout(),
+        //         child: Icon(
+        //             Icons.exit_to_app
+        //         ),
+        //       )
+        //   ),*/
+        // ],
         backgroundColor: Colors.black87,
       ),
       body: Container(
@@ -129,18 +135,18 @@ class _HomePageState extends State<HomePage> {
               Column(
                 children: <Widget>[
                   Container(
-                    height: 100,
+                    //height: 100,
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
                     child: getStories(),
                   ),
-                  Divider(
-                    height: 0,
-                  ),
-                  Column(
-                    children: getPosts(context),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  )
+                  // Divider(
+                  //   height: 0,
+                  // ),
+                  // // Column(children: ),
+                  // SizedBox(
+                  //   height: 10,
+                  // )
                 ],
               )
             ],
@@ -148,9 +154,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  /////////////////////////////////////////
+
+  //////////////////////////////////////
+
   Widget getStories() {
-    return ListView(
-        scrollDirection: Axis.horizontal, children: getUserStories());
+    return ListView(scrollDirection: Axis.vertical, children: getUserStories());
   }
 
   List<Widget> getUserStories() {
@@ -166,142 +175,158 @@ class _HomePageState extends State<HomePage> {
       margin: EdgeInsets.all(5),
       child: Column(
         children: <Widget>[
-          Container(
-              height: 70,
-              width: 70,
-              child: GestureDetector(
-                onTap: () {
-                  if (users.me == true) {
-                    // Host function
-                    onCreate(username: users.username, image: users.image);
-                  } else {
-                    // Join function
-                    onJoin(
-                        channelName: users.username,
-                        channelId: users.channelId,
-                        username: username,
-                        hostImage: users.image,
-                        userImage: image);
-                  }
-                },
-                child: Stack(
-                  alignment: Alignment(0, 0),
-                  children: <Widget>[
-                    !users.me
-                        ? Container(
-                            height: 60,
-                            width: 60,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        Colors.indigo,
-                                        Colors.blue,
-                                        Colors.cyan
-                                      ],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight)),
-                            ),
-                          )
-                        : SizedBox(
-                            height: 0,
-                          ),
-                    Container(
-                      height: 55.5,
-                      width: 55.5,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.black,
-                      ),
-                    ),
-                    CachedNetworkImage(
-                      imageUrl: users.image,
-                      imageBuilder: (context, imageProvider) => Container(
-                        width: 52.0,
-                        height: 52.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: imageProvider, fit: BoxFit.cover),
-                        ),
-                      ),
-                    ),
-                    users.me
-                        ? Container(
-                            height: 55,
-                            width: 55,
-                            alignment: Alignment.bottomRight,
-                            child: Container(
-                              decoration: new BoxDecoration(
-                                color: Colors.blue,
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 1,
-                                ),
-                              ),
-                              child: Icon(
-                                Icons.add,
-                                size: 13.5,
-                                color: Colors.white,
-                              ),
-                            ))
-                        : Container(
-                            height: 70,
-                            width: 70,
-                            alignment: Alignment.bottomCenter,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: <Widget>[
-                                Container(
-                                  height: 17,
-                                  width: 25,
-                                  decoration: new BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
-                                            4.0) //         <--- border radius here
-                                        ),
-                                    gradient: LinearGradient(
-                                        colors: [Colors.black, Colors.black],
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight),
-                                  ),
-                                ),
-                                Container(
-                                    decoration: new BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(
-                                              2.0) //         <--- border radius here
-                                          ),
+          Row(
+            children: [
+              Container(
+                  height: 70,
+                  width: 70,
+                  child: GestureDetector(
+                    onTap: () {
+                      if (users.me == true) {
+                        // Host function
+                        onCreate(username: users.username, image: users.image);
+                      } else {
+                        // Join function
+                        onJoin(
+                            channelName: users.username,
+                            channelId: users.channelId,
+                            username: username,
+                            hostImage: users.image,
+                            userImage: image);
+                      }
+                    },
+                    child: Stack(
+                      alignment: Alignment(0, 0),
+                      children: <Widget>[
+                        !users.me
+                            ? Container(
+                                height: 60,
+                                width: 60,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
                                       gradient: LinearGradient(
                                           colors: [
                                             Colors.indigo,
-                                            Colors.blueAccent
+                                            Colors.blue,
+                                            Colors.cyan
                                           ],
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight),
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight)),
+                                ),
+                              )
+                            : SizedBox(
+                                height: 0,
+                              ),
+                        Container(
+                          height: 55.5,
+                          width: 55.5,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.black,
+                          ),
+                        ),
+                        CachedNetworkImage(
+                          imageUrl: users.image,
+                          imageBuilder: (context, imageProvider) => Container(
+                            width: 52.0,
+                            height: 52.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover),
+                            ),
+                          ),
+                        ),
+                        users.me
+                            ? Container(
+                                height: 55,
+                                width: 55,
+                                alignment: Alignment.bottomRight,
+                                child: Container(
+                                  decoration: new BoxDecoration(
+                                    color: Colors.blue,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1,
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(3.0),
-                                      child: Text(
-                                        'LIVE',
-                                        style: TextStyle(
-                                            fontSize: 7,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    size: 13.5,
+                                    color: Colors.white,
+                                  ),
+                                ))
+                            : Container(
+                                height: 70,
+                                width: 70,
+                                alignment: Alignment.bottomCenter,
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 17,
+                                      width: 25,
+                                      decoration: new BoxDecoration(
+                                        shape: BoxShape.rectangle,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                                4.0) //         <--- border radius here
+                                            ),
+                                        gradient: LinearGradient(
+                                            colors: [
+                                              Colors.black,
+                                              Colors.black
+                                            ],
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight),
                                       ),
-                                    )),
-                              ],
-                            ))
-                  ],
-                ),
-              )),
+                                    ),
+                                    Container(
+                                        decoration: new BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  2.0) //         <--- border radius here
+                                              ),
+                                          gradient: LinearGradient(
+                                              colors: [
+                                                Colors.indigo,
+                                                Colors.blueAccent
+                                              ],
+                                              begin: Alignment.centerLeft,
+                                              end: Alignment.centerRight),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(3.0),
+                                          child: Text(
+                                            'LIVE',
+                                            style: TextStyle(
+                                                fontSize: 7,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        )),
+                                  ],
+                                ))
+                      ],
+                    ),
+                  )),
+              Container(
+                  child: Column(
+                    children: [
+                      Text(users.username,
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 14.0)),
+                    ],
+                  ),
+                  margin: EdgeInsets.only(left: 20.0))
+            ],
+          ),
           SizedBox(
             height: 3,
           ),
-          Text(users.username ?? '', style: textStyle)
+          //// Text(users.username ?? '', style: textStyle)
         ],
       ),
     );
@@ -470,14 +495,14 @@ class _HomePageState extends State<HomePage> {
       await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => JoinPage(
-              channelName: channelName,
-              channelId: channelId,
-              username: username,
-              hostImage: hostImage,
-              userImage: userImage,
-            ),
-            ),
+          builder: (context) => JoinPage(
+            channelName: channelName,
+            channelId: channelId,
+            username: username,
+            hostImage: hostImage,
+            userImage: userImage,
+          ),
+        ),
       );
     }
   }
@@ -491,12 +516,12 @@ class _HomePageState extends State<HomePage> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => CallPage(
-            channelName: username,
-            time: currentTime ,
-            image: image,
-          ),
-          ),
+        builder: (context) => CallPage(
+          channelName: username,
+          time: currentTime,
+          image: image,
+        ),
+      ),
     );
   }
 
@@ -506,3 +531,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+/////////////////////////////////////////////
