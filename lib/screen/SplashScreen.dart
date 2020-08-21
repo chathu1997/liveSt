@@ -1,22 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:gradient_text/gradient_text.dart';
+//import 'package:gradient_text/gradient_text.dart';
 
-class SplashScreen extends StatefulWidget{
-
+class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
-  var image = Image.asset('assets/images/agoraLogo.png');
+  var image = Image.asset('assets/images/agoraLogo.jpeg');
   @override
   void initState() {
     super.initState();
     startTime();
-
   }
 
   @override
@@ -34,10 +31,9 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.of(context).pushReplacementNamed('/HomeScreen');
   }
 
-
   @override
   Widget build(BuildContext context) {
-    precacheImage(AssetImage("assets/images/agoraLogo.png"), context);
+    precacheImage(AssetImage("assets/images/agoraLogo.jpeg"), context);
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -46,14 +42,14 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           children: <Widget>[
             Container(
-              height: MediaQuery.of(context).size.height-100,
+              height: MediaQuery.of(context).size.height - 50,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    height: 80,
-                    width: 80,
+                    height: 130,
+                    width: 130,
                     child: Center(
                       child: image,
                     ),
@@ -61,30 +57,46 @@ class _SplashScreenState extends State<SplashScreen> {
                 ],
               ),
             ),
-            Container(
-              alignment: Alignment.center,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('With ', style: TextStyle(color: Colors.white,fontSize: 13),),
-                      Icon(Icons.favorite, color: Colors.blue,)
-                    ],
-                  ),
-                  SizedBox(height: 4,),
-                  GradientText('DEVELOPERS',
-                      gradient: LinearGradient(
-                          colors: [Colors.lightBlueAccent,  Colors.blue, Colors.indigo]),
-                      style: TextStyle(fontSize: 16,),
-                      textAlign: TextAlign.center,
-                  ),
-
-                ],
-              ),
-            )
+            SizedBox(
+              height: 50,
+            ),
+            // Container(
+            //   alignment: Alignment.center,
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.center,
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: <Widget>[
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: <Widget>[
+            //           Text(
+            //             'With ',
+            //             style: TextStyle(color: Colors.white, fontSize: 13),
+            //           ),
+            //           Icon(
+            //             Icons.favorite,
+            //             color: Colors.blue,
+            //           )
+            //         ],
+            //       ),
+            //       SizedBox(
+            //         height: 4,
+            //       ),
+            //       GradientText(
+            //         'DEVELOPERS',
+            //         gradient: LinearGradient(colors: [
+            //           Colors.lightBlueAccent,
+            //           Colors.blue,
+            //           Colors.indigo
+            //         ]),
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //         ),
+            //         textAlign: TextAlign.center,
+            //       ),
+            //     ],
+            //   ),
+            // )
           ],
         ),
       ),
